@@ -1,0 +1,90 @@
+<html>
+  <head>
+   <title>Alen'sTodo App</title>
+  </head>
+ <body>
+      
+     <input id="Mustdo-Title" type="text"/>
+     <input id="date-picker" type="date"/>
+     <button onclick="addMustdo()">AddMustDo</button>
+     <div id="Mustdo-list"></div>
+     <script>
+      //model
+      let Mustdos = [{
+      title: 'Shopping',
+      dueDate: '2023-10-10',
+      id: 'id1'
+      }, {
+      title:'Get car washed',
+      dueDate: '2023-10-10',
+      id: 'id2'
+      }, {
+      title:'Do laundry',
+      dueDate: '2023-10-10',
+      id : 'id3'
+      }];
+      //creator       
+          
+       function createMustdo(title, dueDate) {
+         const id = '' + new Date().getTime();
+
+         Mustdos.push({
+         title: title,
+         dueDate: dueDate,
+         id: id
+          });
+          render();
+         }
+         
+        function addMustdo() {
+            const textbox = document.getElementById('Mustdo-Title');
+            let element = document.createElement('div');
+            const title = textbox.value;
+
+            const datePicker = document.getElementById('date-picker');
+            const dueDate = datePicker.value;
+            createMustdo(title, dueDate);
+        
+            render(); 
+          }                   
+                         
+        function deleteMustdo(event){
+          const deletebutton = event.target;
+          const idToDelete = deletebutton.id;
+
+          Mustdos = Mustdos.filter(function  (mustdo){
+           // if the id of this mustdo matches idToDelete, return false
+           // for everything else , return true
+           if (mustdo.id === idToDelete) {
+            return false;
+           } else{
+            return true;
+           }
+          });
+
+          render();
+        }
+         function render() {
+         //reset our must do list
+         document.getElementById('Mustdo-list').innerHTML = '';
+
+          Mustdos.forEach(function (Mustdo) {
+             const element = document.createElement('div');
+             element.innerText = Mustdo.title + ' ' + Mustdo.dueDate
+
+
+             const deletebutton = document.createElement('button');
+             deletebutton.innerText = 'Delete';
+             deletebutton.style = 'margin-left: 15px'
+             deletebutton.onclick = deleteMustdo;
+             deletebutton.id = Mustdo.id;
+             element.appendChild(deletebutton);
+             
+
+             const   MustdoList = document.getElementById('Mustdo-list');
+             MustdoList.appendChild(element);
+           }); 
+        } 
+        </script>
+ </body>
+</html>
